@@ -1,0 +1,12 @@
+{
+    "inicial": 0,
+    "final": [2],
+    "estados": [
+      { "from": 0, "read": "a", "to": 1 },
+      { "from": 0, "read": "b", "to": 0 },
+      { "from": 1, "read": "a", "to": 1 },
+      { "from": 1, "read": "b", "to": 2 },
+      { "from": 2, "read": "a", "to": 1 },
+      { "from": 2, "read": "b", "to": 0 }
+    ]
+}
