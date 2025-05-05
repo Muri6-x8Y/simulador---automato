@@ -50,11 +50,40 @@ public:
         }
     }
 
+    bool processar(const string& entrada, int estadoAtual, int& estadoFinal) {
+        for (char c : entrada) {
+            auto it = delta.find({estadoAtual, c});
+            if (it == delta.end()) {
+                estadoFinal = estadoAtual;
+                return false;
+            }
+            estadoAtual = it->second;
+        }
+        estadoFinal = estadoAtual;
+        return estadosFinais.count(estadoAtual) > 0;
+    }
+
 };
 
 int main(){
     AutomatoFinito af;
     af.carregarJSON("automato.json");
     
+    ifstream testes("testes.txt");
+    ofstream resultado("resultado.txt");
+
+    string linha;
+    while (getline(testes, linha)) {
+        stringstream ss(linha);
+        string cadeia;
+        int estadoInicial;
+        if (getline(ss, cadeia, ';') && ss >> estadoInicial) {
+            int estadoFinal;
+            bool aceita = af.processar(cadeia, estadoInicial, estadoFinal);
+            resultado << cadeia << ";" << estadoFinal << ": " << (aceita ? "ACEITA" : "REJEITA") << endl;
+        }
+    }
+   
+    cout << "Processamento concluído. Verifique resultado.txt." << endl;
     return 0;
 }
